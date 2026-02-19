@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Simple Video Joiner",
+    "slug": "simple-video-joiner",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.simplevideojoiner.app",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_VIDEO"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "動画を選択するためにフォトライブラリへのアクセスが必要です。"
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "結合した動画をギャラリーに保存するためにアクセスが必要です。",
+          "savePhotosPermission": "結合した動画をギャラリーに保存するためにアクセスが必要です。",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "YOUR_PROJECT_ID_HERE"
+      }
+    }
+  }
+}
