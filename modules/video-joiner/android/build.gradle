@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
+group = 'expo.modules.videojoiner'
+version = '1.0.0'
+
+buildscript {
+  def expoModulesCorePlugin = new File(
+    project(":expo-modules-core").projectDir.absolutePath,
+    "ExpoModulesCorePlugin.gradle"
+  )
+  if (expoModulesCorePlugin.exists()) {
+    apply from: expoModulesCorePlugin
+    applyKotlinExpoModulesCorePlugin()
+  }
+}
+
+android {
+  compileSdk safeExtGet("compileSdkVersion", 34)
+  namespace "expo.modules.videojoiner"
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.majorVersion
+  }
+
+  defaultConfig {
+    minSdk safeExtGet("minSdkVersion", 24)
+    targetSdk safeExtGet("targetSdkVersion", 34)
+  }
+}
+
+repositories {
+  mavenCentral()
+  google()
+}
+
+dependencies {
+  implementation project(':expo-modules-core')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion()}"
+}

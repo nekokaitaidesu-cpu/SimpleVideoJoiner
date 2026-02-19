@@ -26,7 +26,6 @@
       ]
     },
     "plugins": [
-      "./plugins/withFfmpegKit",
       [
         "expo-build-properties",
         {

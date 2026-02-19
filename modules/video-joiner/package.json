@@ -1,0 +1,6 @@
+{
+  "name": "expo-video-joiner",
+  "version": "1.0.0",
+  "description": "Native video joiner using Android MediaExtractor + MediaMuxer",
+  "main": "src/index.ts"
+}
