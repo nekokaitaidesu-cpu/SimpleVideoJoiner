@@ -4,27 +4,22 @@ const { withAppBuildGradle, withGradleProperties } = require('@expo/config-plugi
  * ffmpeg-kit-react-native の Maven 依存問題を修正するプラグイン。
  *
  * 問題:
- *   - npm パッケージが com.arthenica:ffmpeg-kit-https を要求するが
- *     このアーティファクトは Maven Central に存在しない。
- *   - Maven Central に存在するのは com.arthenica:ffmpeg-kit-full:4.5.LTS
+ *   ffmpeg-kit-react-native@4.5.1 が要求する
+ *   com.arthenica:ffmpeg-kit-https:4.5.1-1 は Maven Central に存在しない。
+ *   (https バリアントが存在しないが full バリアントは存在する)
  *
  * 修正:
  *   1. gradle.properties に ffmpegKitPackage=full を設定
- *   2. app/build.gradle の ext にも ffmpegKitPackage=full を設定
- *   3. dependencySubstitution で ffmpeg-kit-https → ffmpeg-kit-full:4.5.LTS に置換
+ *   2. dependencySubstitution で ffmpeg-kit-https:4.5.1-1
+ *      → ffmpeg-kit-full:4.5.1-1 に置換 (バージョンはそのまま)
  */
 module.exports = function withFfmpegKit(config) {
-  // 1. gradle.properties に設定
+  // 1. gradle.properties に設定 (ffmpeg-kit-react-native が rootProject.property() で参照)
   config = withGradleProperties(config, (config) => {
-    // 既存のエントリを削除してから追加
     config.modResults = config.modResults.filter(
       (item) => !(item.type === 'property' && item.key === 'ffmpegKitPackage')
     );
-    config.modResults.push({
-      type: 'property',
-      key: 'ffmpegKitPackage',
-      value: 'full',
-    });
+    config.modResults.push({ type: 'property', key: 'ffmpegKitPackage', value: 'full' });
     return config;
   });
 
@@ -40,16 +35,11 @@ module.exports = function withFfmpegKit(config) {
       );
     }
 
-    // ffmpeg-kit-https → ffmpeg-kit-full:4.5.LTS に置換する substitution を追加
+    // ffmpeg-kit-https → ffmpeg-kit-full に名前置換 (バージョンはそのまま維持)
     const substitutionBlock = `
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        substitute(module('com.arthenica:ffmpeg-kit-https')).using(module('com.arthenica:ffmpeg-kit-full:4.5.LTS'))
-    }
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'com.arthenica') {
-            details.useVersion('4.5.LTS')
-        }
+        substitute(module('com.arthenica:ffmpeg-kit-https')).using(module('com.arthenica:ffmpeg-kit-full:4.5.1-1'))
     }
 }
 `;
