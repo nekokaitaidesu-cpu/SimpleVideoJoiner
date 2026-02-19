@@ -27,6 +27,14 @@
     },
     "plugins": [
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24
+          }
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "動画を選択するためにフォトライブラリへのアクセスが必要です。"
